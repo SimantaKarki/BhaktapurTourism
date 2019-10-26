@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "132757131972",
+    "firebase_url": "https://bhaktpaur-tourism.firebaseio.com",
+    "project_id": "bhaktpaur-tourism",
+    "storage_bucket": "bhaktpaur-tourism.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132757131972:android:73a73051890fbf893e2f91",
+        "android_client_info": {
+          "package_name": "com.example.bhaktapur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132757131972-4fb337cchia9m096f9h1odr3t37rbl4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAFayPHjJ9n-x5_BOQF_6u8m8cKhUU4Cw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132757131972-4fb337cchia9m096f9h1odr3t37rbl4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

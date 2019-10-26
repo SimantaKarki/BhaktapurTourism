@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "166002629286",
+    "firebase_url": "https://bhaktapurtoursim.firebaseio.com",
+    "project_id": "bhaktapurtoursim",
+    "storage_bucket": "bhaktapurtoursim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166002629286:android:b32bbed70669cd116d7267",
+        "android_client_info": {
+          "package_name": "com.example.bhaktapur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166002629286-pv9rio32ilum32vf8cormqa421qbm588.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV2rRId4tsaGM2jSk7kboD_Ijt1Fn5Ys8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166002629286-pv9rio32ilum32vf8cormqa421qbm588.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
