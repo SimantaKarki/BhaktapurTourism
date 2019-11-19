@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 List<String> images = [
   "assets/siddha-pokhari.jpg",
   "assets/pilot-baba.jpg",
@@ -17,7 +19,7 @@ List<String> categories = [
   "Religious Places",
   "Famous Temples",
   "For Trekking",
-] ;
+];
 List<String> catimages = [
   "assets/stay.jpg",
   "assets/treeking.jpg",
@@ -29,4 +31,13 @@ List<String> favourites = [
   "Changu Narayan",
   "Pilot Baba",
   "Ghampe Dada",
-] ;
+];
+List<String> hotspots = [
+  "Bhaktapur Durbar Square",
+  "Pilot Baba",
+  "Changu Narayan",
+  "Ghampe Dada",
+];
+
+bool isPressed = false;
+bool remove = false;

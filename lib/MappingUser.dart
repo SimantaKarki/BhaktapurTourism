@@ -6,7 +6,6 @@ import 'Authentication.dart';
 class MappingPage extends StatefulWidget
 {
   final AuthImplementation auth;
-
   MappingPage
       ({
     this.auth,
