@@ -18,6 +18,7 @@ class MappingPage extends StatefulWidget
 
 enum AuthStatus
 {
+  notDetermined,
   notSignedIn,
   signedIn,
 }
@@ -25,14 +26,22 @@ enum AuthStatus
 class _MappingPageState extends State<MappingPage>
 {
   AuthStatus authStatus = AuthStatus.notSignedIn;
+  int a;
   void initState()
   {
     super.initState();
-    widget.auth.getCurrentUser().then((firebaseUserId)
-    {
+    widget.auth.getCurrentUser().then((String userId) {
+      if(userId!=null) {
+        a = 1;
+      }
+      else{
+        a=0;
+      }
       setState(() {
-        authStatus = firebaseUserId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+        authStatus = a== 0 ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });
+    }).catchError((onError){
+      authStatus = AuthStatus.notSignedIn;
     });
 
   }
@@ -53,6 +62,8 @@ class _MappingPageState extends State<MappingPage>
     // TODO: implement build
     switch(authStatus)
     {
+      case AuthStatus.notDetermined:
+        return _buildWaitingScreen();
       case AuthStatus.notSignedIn:
         return new LoginRegisterPage(
           auth: widget.auth,
@@ -68,5 +79,13 @@ class _MappingPageState extends State<MappingPage>
 
     }
     return null;
+  }
+  Widget _buildWaitingScreen() {
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }

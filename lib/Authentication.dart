@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthImplementation
@@ -11,28 +12,28 @@ abstract class AuthImplementation
 class Auth implements AuthImplementation
 {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-//for signin
+
   Future<String> signInWithEmailAndPassword(String email, String password) async
   {
     FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password)).user;
-    return user.uid;
+    return user==null?user:user.uid;
   }
-//For SignUp
+
   Future<String> createUserWithEmailAndPassword(String email, String password) async
   {
     FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).user;
-    return user.uid;
+    return user==null?user:user.uid;
   }
-//for getting user id
+
   Future<String> getCurrentUser() async
   {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    return user.uid;
+    return user==null?user:user.uid;
   }
   //FOr SignOut
   Future<void> signOut() async
   {
-    _firebaseAuth.signOut();
+   return _firebaseAuth.signOut();
   }
 }
 

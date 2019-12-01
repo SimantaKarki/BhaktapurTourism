@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bhaktapur_tourism/data.dart';
-import 'package:bhaktapur_tourism/blogHome.dart';
+import 'package:bhaktapur/data.dart';
+import 'package:bhaktapur/blogHome.dart';
 import 'Authentication.dart';
 
 class LoginRegisterPage extends StatefulWidget
@@ -328,7 +328,7 @@ class _LoginResiterState extends State<LoginRegisterPage> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top:8.0),
-                    child: RaisedButton(onPressed: validateAndSubmit,
+                    child: RaisedButton(onPressed:(){ validateAndSubmit();},
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                             side: BorderSide(

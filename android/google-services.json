@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "132757131972-b2ib298jq3r6pe7mnn19n97t7ifg1j09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhaktapur",
+            "certificate_hash": "d128702a94679ea97309e9fe5e37cae29edda7c8"
+          }
+        },
+        {
           "client_id": "132757131972-4fb337cchia9m096f9h1odr3t37rbl4n.apps.googleusercontent.com",
           "client_type": 3
         }

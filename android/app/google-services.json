@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "166002629286",
-    "firebase_url": "https://bhaktapurtoursim.firebaseio.com",
-    "project_id": "bhaktapurtoursim",
-    "storage_bucket": "bhaktapurtoursim.appspot.com"
+    "project_number": "132757131972",
+    "firebase_url": "https://bhaktpaur-tourism.firebaseio.com",
+    "project_id": "bhaktpaur-tourism",
+    "storage_bucket": "bhaktpaur-tourism.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:166002629286:android:b32bbed70669cd116d7267",
+        "mobilesdk_app_id": "1:132757131972:android:73a73051890fbf893e2f91",
         "android_client_info": {
           "package_name": "com.example.bhaktapur"
         }
       },
       "oauth_client": [
         {
-          "client_id": "166002629286-pv9rio32ilum32vf8cormqa421qbm588.apps.googleusercontent.com",
+          "client_id": "132757131972-b2ib298jq3r6pe7mnn19n97t7ifg1j09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhaktapur",
+            "certificate_hash": "d128702a94679ea97309e9fe5e37cae29edda7c8"
+          }
+        },
+        {
+          "client_id": "132757131972-4fb337cchia9m096f9h1odr3t37rbl4n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAV2rRId4tsaGM2jSk7kboD_Ijt1Fn5Ys8"
+          "current_key": "AIzaSyDAFayPHjJ9n-x5_BOQF_6u8m8cKhUU4Cw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "166002629286-pv9rio32ilum32vf8cormqa421qbm588.apps.googleusercontent.com",
+              "client_id": "132757131972-4fb337cchia9m096f9h1odr3t37rbl4n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

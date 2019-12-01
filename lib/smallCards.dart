@@ -1,254 +1,101 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
 import 'main.dart';
-
-var dist = 1.5;
-var KM = 'Km';
-
-class SmallCards extends StatefulWidget {
+class favRoute extends StatefulWidget
+{
   @override
-  _SmallCardsState createState() => new _SmallCardsState();
+  favRouteState createState() => favRouteState();
 }
 
-class _SmallCardsState extends State<SmallCards> {
-  List<String> hotspots = [
-    "Bhaktapur Durbar Square",
-    "Pilot Baba",
-    "Changu Narayan",
-    "Ghampe Dada",
-  ];
-
-  pressed() {
-    bool newVal;
-    if (isPressed) {
-      newVal = false;
-      remove = newVal;
-    } else {
-      newVal = true;
-      remove = newVal;
-    }
-    setState(() {
-      isPressed = newVal;
-      remove = newVal;
-    });
-  }
-
+class favRouteState extends State<favRoute> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
-      height: 230,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ListView(
-          padding: EdgeInsets.only(top: 20.0, left: 10.0),
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 160.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.5, 1.0),
-                        blurRadius: 5.0,
-                      )
-                    ],
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Flexible(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [0.13, 0.5, 0.9],
+                colors: [
+                  Color(0xFF1b1e44),
+                  Color(0xFF2d3447),
+                  Colors.red[800],
+
+                ]
+            )
+        ),
+        child: Scaffold(
+          resizeToAvoidBottomPadding: false,
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Column(
+                    children: <Widget>[ Container(
+                        color: Colors.white10,
+                        padding: EdgeInsets.only(
+                            top: 35.0, left: 0.0, bottom: 8.0, right: 0.0),
                         child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0)),
-                            child: Image(
-                              image: AssetImage('assets/durbar-square.jpg'),
-                              fit: BoxFit.cover,
+                          decoration: new BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey[300],
+                                  width: 3.0,
+                                )
                             ),
                           ),
-                        ),
-                        flex: 2,
-                        fit: FlexFit.tight,
-                      ),
-                      Flexible(
-                        child: Container(
-                          child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 20, bottom: 2.0),
                             child: Column(
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    hotspots[0],
-                                    style: TextStyle(
-                                      fontSize: 13.0,
-                                    ),
-                                  ),
-                                ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      '$dist$KM away',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 0.0),
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_back_ios,
+                                          size: 20.0,
+                                          color: Colors.redAccent,
+                                        ), onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) => MyApp())
+                                        );
+                                      },
                                       ),
                                     ),
-                                    IconButton(
-                                      icon: new Icon(isPressed
-                                          ? Icons.favorite
-                                          : Icons.favorite_border),
-                                      onPressed: () {
-                                        pressed();
-                                      },
-                                      iconSize: 20.0,
-                                      color: Colors.pink,
+                                    Column(
+                                      children: <Widget>[
+                                        Text("Favourites",
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "Futura bold",
+                                            )),
+                                      ],
                                     ),
+//                                        addFav(0)
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        flex: 1,
-                        fit: FlexFit.loose,
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
+                        )
+                    ),
+                    ]
+                ),
+
+  addCheck()==1?(addfav()):Text("No favourites added"),
+
+              ],
+            ),
+
+          ),
+        )
+
     );
   }
 }
 
-class SmallCardsView extends StatefulWidget {
-  @override
-  _SmallCardsViewState createState() => new _SmallCardsViewState();
-}
-
-class _SmallCardsViewState extends State<SmallCardsView> {
-  List<String> hotspots = [
-    "Bhaktapur Durbar Square",
-    "Pilot Baba",
-    "Changu Narayan",
-    "Ghampe Dada",
-  ];
-
-  pressed() {
-    bool newVal;
-    // if (isPressed) {
-    //   newVal = false;
-    //   remove = newVal;
-    // } else {
-    //   newVal = true;
-    //   remove = newVal;
-    // }
-    setState(() {
-      isPressed = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 550,
-      height: 415,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          padding: EdgeInsets.only(top: 20.0, left: 10.0),
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 160.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.5, 1.0),
-                        blurRadius: 5.0,
-                      )
-                    ],
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Flexible(
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0)),
-                            child: Image(
-                              image: AssetImage('assets/durbar-square.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        flex: 2,
-                        fit: FlexFit.tight,
-                      ),
-                      Flexible(
-                        child: Container(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    hotspots[0],
-                                    style: TextStyle(
-                                      fontSize: 13.0,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text(
-                                      '$dist$KM away',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: new Icon(isPressed
-                                          ? Icons.favorite
-                                          : Icons.favorite_border),
-                                      onPressed: () {
-                                        pressed();
-                                      },
-                                      iconSize: 20.0,
-                                      color: Colors.pink,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        flex: 1,
-                        fit: FlexFit.loose,
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-}
