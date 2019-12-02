@@ -1,22 +1,27 @@
+import 'package:bhaktapur_tourism/data.dart';
+import 'package:bhaktapur_tourism/data.dart';
+import 'package:bhaktapur_tourism/flutterUpload.dart';
+import 'package:bhaktapur_tourism/place.dart';
+import 'package:bhaktapur_tourism/smallCards.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:async';
+import 'package:transparent_image/transparent_image.dart';
 import 'data.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'loginRegister.dart';
-import 'MappingUser.dart';
-import 'Authentication.dart';
-import 'blogHome.dart';
-import 'smallCards.dart';
-import 'hDesign.dart';
-import 'allHotspots.dart';
-import 'assit.dart';
+import 'package:bhaktapur_tourism/firebase/loginRegister.dart';
+import 'package:bhaktapur_tourism/firebase/MappingUser.dart';
+import 'package:bhaktapur_tourism/firebase/Authentication.dart';
+import 'hosts.dart';
+// import 'blogHome.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 void main() {
+  var themeData = ThemeData(
+      primaryColor: Colors.red, accentColor: Colors.red[800].withOpacity(0.8));
   runApp(
     MaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.red,
-          accentColor: Colors.red[800].withOpacity(0.8)),
+      theme: themeData,
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     ),
@@ -37,11 +42,12 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 5),
       () => //print("Hello"),
           runApp(MaterialApp(
-       home: MappingPage(
-          auth: Auth(),
-      ), //         //LoginRegisterPage(),
+        home: MyApp(),
+        // MappingPage(
+        //   auth: Auth(),
+        // ),
         debugShowCheckedModeBanner: false,
-      )), ////
+      )),
     );
   }
 
@@ -99,13 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           color: Colors.white,
                           size: 65.0,
                         ),
-                      ),
-//                      Text("Bhaktapur Tourism",
-//                          style: TextStyle(
-//                            color: Colors.white.withOpacity(0.6),
-//                            fontSize: 16.0,
-//                            fontFamily: "Calibre-Semibold",
-//                          )),
+                      )
                     ],
                   ),
                 ),
@@ -154,6 +154,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<Posts> postList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    DatabaseReference postsRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+
+    postsRef.once().then((DataSnapshot snap) {
+      var KEYS = snap.value.keys;
+      var DATA = snap.value;
+
+      postList.clear();
+
+      for (var individualKey in KEYS) {
+        Posts posts = new Posts(
+          DATA[individualKey]['image'],
+          DATA[individualKey]['description'],
+          DATA[individualKey]['date'],
+          DATA[individualKey]['time'],
+        );
+        postList.add(posts);
+      }
+      setState(() {
+        print("Length : $postList.length");
+      });
+    });
+  }
+
   void _logoutUser() async {
     try {
       await widget.auth.signOut();
@@ -203,9 +232,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var dist = 1.5;
-    var KM = 'Km';
-
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -349,7 +375,19 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
-              ImageCarousel(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => places(),
+                      ));
+                },
+                child: ImageCarousel(),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
@@ -363,26 +401,26 @@ class _MyAppState extends State<MyApp> {
 //                          fontWeight:FontWeight.w100,
                           letterSpacing: 0.5,
                         )),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => hotSpots(),
-                            ));
-                      },
-                      child: Text(
-                        "See all",
-                        style: TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 13.0,
-                        ),
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 13.0,
                       ),
                     )
                   ],
                 ),
               ),
-              hDesigns(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => durbar_square(),
+                      ));
+                },
+                child: SmallCards(),
+              ),
               SizedBox(
                 height: 20.0,
               ),
@@ -399,12 +437,19 @@ class _MyAppState extends State<MyApp> {
 //                          fontWeight:FontWeight.w100,
                           letterSpacing: 0.5,
                         )),
+                    Text(
+                      "See all",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 13.0,
+                      ),
+                    )
                   ],
                 ),
               ),
               Container(
-                width: 500,
-                height: 425,
+                width: 550,
+                height: 415,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GridView.count(
@@ -414,6 +459,7 @@ class _MyAppState extends State<MyApp> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
+                          width: 160.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: <BoxShadow>[
@@ -424,49 +470,6 @@ class _MyAppState extends State<MyApp> {
                               )
                             ],
                             color: Colors.white,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  width: 500,
-                                  height: 300,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0)),
-                                    child: Image(
-                                      image: AssetImage('assets/choela.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                flex: 5,
-                                fit: FlexFit.tight,
-                              ),
-                              Flexible(
-                                child: Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            "Experiences",
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                flex: 1,
-                                fit: FlexFit.loose,
-                              ),
-                            ],
                           ),
                         ),
                       ),
@@ -485,50 +488,6 @@ class _MyAppState extends State<MyApp> {
                             ],
                             color: Colors.white,
                           ),
-                          child: Column(
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  width: 500,
-                                  height: 300,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0)),
-                                    child: Image(
-                                      image: AssetImage(
-                                          'assets/durbar-square.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                flex: 5,
-                                fit: FlexFit.tight,
-                              ),
-                              Flexible(
-                                child: Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            "Religious Place",
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                flex: 1,
-                                fit: FlexFit.loose,
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                       Padding(
@@ -546,49 +505,6 @@ class _MyAppState extends State<MyApp> {
                             ],
                             color: Colors.white,
                           ),
-                          child: Column(
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  width: 500,
-                                  height: 300,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0)),
-                                    child: Image(
-                                      image: AssetImage('assets/treeking.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                flex: 5,
-                                fit: FlexFit.tight,
-                              ),
-                              Flexible(
-                                child: Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            "Adventures",
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                flex: 1,
-                                fit: FlexFit.loose,
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                       Padding(
@@ -605,49 +521,6 @@ class _MyAppState extends State<MyApp> {
                               )
                             ],
                             color: Colors.white,
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  width: 500,
-                                  height: 300,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0)),
-                                    child: Image(
-                                      image: AssetImage('assets/stay.jpg'),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                flex: 5,
-                                fit: FlexFit.tight,
-                              ),
-                              Flexible(
-                                child: Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            "Stays",
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                flex: 1,
-                                fit: FlexFit.loose,
-                              ),
-                            ],
                           ),
                         ),
                       ),
@@ -674,85 +547,25 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
+              SizedBox(height: 20.0),
               Container(
                 width: 550,
                 height: 415,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white,
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0.5, 1.0),
-                                blurRadius: 5.0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0.5, 1.0),
-                                blurRadius: 5.0,
-                              )
-                            ],
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0.5, 1.0),
-                                blurRadius: 5.0,
-                              )
-                            ],
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 160.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0.5, 1.0),
-                                blurRadius: 5.0,
-                              )
-                            ],
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  padding: const EdgeInsets.only(
+                      left: 2.0, right: 2.0, bottom: 15.0),
+                  child: postList.length == 0
+                      ? Text("No Hosting Found")
+                      : new ListView.builder(
+                          itemCount: postList.length,
+                          itemBuilder: (_, int index) {
+                            return HostsUI(
+                              postList[index].image,
+                              postList[index].description,
+                              postList[index].date,
+                              postList[index].time,
+                            );
+                          }),
                 ),
               ),
             ],
@@ -789,16 +602,14 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.only(right: 45.0),
             child: IconButton(
                 icon: Icon(
-                  Icons.chat_bubble_outline,
+                  Icons.add_circle_outline,
                   color: Colors.black87,
                   size: 28.0,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Assit(),
-                      ));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return UploadPhotoPage();
+                  }));
                 }),
           ),
           Padding(
@@ -820,6 +631,83 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+}
+
+Widget HostsUI(String image, String description, String date, String time) {
+  return new Card(
+      color: Colors.white,
+      elevation: 0.1,
+      margin: EdgeInsets.all(15.0),
+      child: new Container(
+        padding: EdgeInsets.all(14.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Opacity(
+                  child: Text(
+                    date,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  opacity: 0.5,
+                ),
+                Opacity(
+                  child: Text(
+                    time,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  opacity: 0.5,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Stack(
+              children: [
+                Center(child: CircularProgressIndicator()),
+                Center(
+                  child: FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.red, width: 1.3),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  description,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ));
 }
 
 class settingRoute extends StatefulWidget {
@@ -1318,12 +1206,15 @@ class ImageCarousel extends StatelessWidget {
     boxFit: BoxFit.cover,
     images: [
       AssetImage('assets/natapol.png'),
-      AssetImage('assets/siddha-pokhari.jpg'),
+      AssetImage('assets/durbar-square.jpg'),
       AssetImage('assets/pilot-baba.jpg'),
-      AssetImage('assets/treeking.jpg'),
+      AssetImage('assets/siddha-pokhari.jpg'),
     ],
     animationCurve: Curves.fastLinearToSlowEaseIn,
-    animationDuration: Duration(milliseconds: 3000),
+    animationDuration: Duration(milliseconds: 4000),
+    dotColor: Colors.redAccent[200],
+    dotSpacing: 35.0,
+    dotBgColor: Colors.transparent.withOpacity(0.15),
   );
 
   final banner = new Container(
@@ -1350,5 +1241,100 @@ class ImageCarousel extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class favRoute extends StatefulWidget {
+  @override
+  _favRouteState createState() => _favRouteState();
+}
+
+class _favRouteState extends State<favRoute> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [
+              0.13,
+              0.5,
+              0.9
+            ],
+                colors: [
+              Color(0xFF1b1e44),
+              Color(0xFF2d3447),
+              Colors.red[800],
+            ])),
+        child: Scaffold(
+          resizeToAvoidBottomPadding: false,
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Container(
+                      color: Colors.white10,
+                      padding: EdgeInsets.only(
+                          top: 35.0, left: 0.0, bottom: 8.0, right: 0.0),
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                            color: Colors.grey[300],
+                            width: 3.0,
+                          )),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 20, bottom: 2.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 0.0),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 20.0,
+                                        color: Colors.redAccent,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => MyApp()));
+                                      },
+                                    ),
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Text("Favourites",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "Futura bold",
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                  isPressed
+                      ? SmallCardsView()
+                      : Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Text("Nothing Added in Favourites"),
+                        ),
+                ]),
+              ],
+            ),
+          ),
+        ));
   }
 }
