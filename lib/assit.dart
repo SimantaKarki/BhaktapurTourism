@@ -131,15 +131,15 @@ class AssitState extends State<Assit> {
 //                    ),
 
 //
-                                    FloatingActionButton(
-                                      child: Icon(Icons.mic),
-                                      backgroundColor: Colors.pink,
-                                      onPressed:
-                          (){
-                        if (_isAvailable && !_isListening)
-                          _speechRecognition.listen(locale: "en_US").then((result) => print('$result'));
-                      },
-                                    ),
+//                                    FloatingActionButton(
+//                                      child: Icon(Icons.mic),
+//                                      backgroundColor: Colors.pink,
+//                                      onPressed:
+//                          (){
+//                        if (_isAvailable && !_isListening)
+//                          _speechRecognition.listen(locale: "en_US").then((result) => print('$result'));
+//                      },
+//                                    ),
 //                                    FloatingActionButton(
 //                                      child: Icon(Icons.stop),
 //                                      mini: true,

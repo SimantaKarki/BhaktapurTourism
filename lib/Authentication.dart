@@ -15,6 +15,7 @@ class Auth implements AuthImplementation
 
   Future<String> signInWithEmailAndPassword(String email, String password) async
   {
+
     FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password)).user;
     return user==null?user:user.uid;
   }

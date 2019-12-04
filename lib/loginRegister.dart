@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bhaktapur/data.dart';
-import 'package:bhaktapur/blogHome.dart';
+import 'data.dart';
+import 'blogHome.dart';
 import 'Authentication.dart';
-
+import 'MappingUser.dart';
 class LoginRegisterPage extends StatefulWidget
 {
   LoginRegisterPage({

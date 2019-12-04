@@ -72,8 +72,6 @@ class _MappingPageState extends State<MappingPage>
 
       case AuthStatus.signedIn:
         return new HomePage(
-          auth: widget.auth,
-          onSignedOut: _signedOut,
         );
 
 
